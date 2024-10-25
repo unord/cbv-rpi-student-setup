@@ -16,13 +16,11 @@ This script is designed by **U/NORD IT** and authored by **Gorm Reventlow**. It 
 ## Getting Started  
 Follow these steps to clone the repository, set up permissions, configure your network settings, and run the script. 
 ### 1. Clone the Repository  
-Open a terminal on your Raspberry Pi and execute the following command to clone the repository: 
+Open a terminal and clone directlyh down to the Raspberry Pi or a USB drive: 
 
 ```bash 
-git clone https://github.com/U-NORD/network-config.git
+git clone https://github.com/unord/cbv-rpi-student-setup
 ```
-
-_Replace the URL with the actual repository link if different._
 
 ### 2. Change File Permissions
 
