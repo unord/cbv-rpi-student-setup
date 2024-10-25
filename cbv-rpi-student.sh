@@ -110,7 +110,7 @@ if [[ ! $NEW_HOSTNAME =~ ^[a-zA-Z0-9\-]+$ ]]; then
 fi
 
 # Prompt for static IP for Wi-Fi
-read -p "Enter desired static IP address for Wi-Fi (e.g., 10.126.192.100): " STATIC_IP_WLAN
+read -p "Enter desired static IP address for Wi-Fi (e.g., 10.126.193.100): " STATIC_IP_WLAN
 
 # Validate IP address
 if ! validate_ip "$STATIC_IP_WLAN"; then
