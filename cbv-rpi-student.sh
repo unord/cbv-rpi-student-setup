@@ -72,30 +72,30 @@ check_var "SSID"
 check_var "PSK"
 check_var "COUNTRY"
 
-# Ethernet Parameters
-check_var "SUBNET"
-check_var "GATEWAY"
-check_var "DNS"
+# Wi-Fi Static IP Parameters
+check_var "SUBNET_WLAN"
+check_var "GATEWAY_WLAN"
+check_var "DNS_WLAN"
 
 # Validate COUNTRY (must be a two-letter country code)
 if [[ ! $COUNTRY =~ ^[A-Z]{2}$ ]]; then
   error_exit "Invalid COUNTRY code '$COUNTRY'. It should be a two-letter uppercase country code (e.g., US, DK)."
 fi
 
-# Validate SUBNET (must start with a slash followed by 1-2 digits)
-if [[ ! $SUBNET =~ ^/[0-9]{1,2}$ ]]; then
-  error_exit "Invalid SUBNET '$SUBNET'. It should be in CIDR notation, e.g., /24."
+# Validate SUBNET_WLAN (must start with a slash followed by 1-2 digits)
+if [[ ! $SUBNET_WLAN =~ ^/[0-9]{1,2}$ ]]; then
+  error_exit "Invalid SUBNET_WLAN '$SUBNET_WLAN'. It should be in CIDR notation, e.g., /24."
 fi
 
-# Validate GATEWAY
-if ! validate_ip "$GATEWAY"; then
-  error_exit "Invalid GATEWAY IP address '$GATEWAY'."
+# Validate GATEWAY_WLAN
+if ! validate_ip "$GATEWAY_WLAN"; then
+  error_exit "Invalid GATEWAY_WLAN IP address '$GATEWAY_WLAN'."
 fi
 
-# Validate DNS (at least one valid IP)
-for dns_ip in $DNS; do
+# Validate DNS_WLAN (at least one valid IP)
+for dns_ip in $DNS_WLAN; do
   if ! validate_ip "$dns_ip"; then
-    error_exit "Invalid DNS server IP address '$dns_ip'."
+    error_exit "Invalid DNS_WLAN server IP address '$dns_ip'."
   fi
 done
 
@@ -109,12 +109,12 @@ if [[ ! $NEW_HOSTNAME =~ ^[a-zA-Z0-9\-]+$ ]]; then
   error_exit "Invalid hostname. Use only letters, numbers, and hyphens."
 fi
 
-# Prompt for static IP
-read -p "Enter desired static IP address (e.g., 10.126.193.xxx): " STATIC_IP
+# Prompt for static IP for Wi-Fi
+read -p "Enter desired static IP address for Wi-Fi (e.g., 10.126.192.100): " STATIC_IP_WLAN
 
 # Validate IP address
-if ! validate_ip "$STATIC_IP"; then
-  error_exit "Invalid IP address format."
+if ! validate_ip "$STATIC_IP_WLAN"; then
+  error_exit "Invalid IP address format for Wi-Fi."
 fi
 
 # ------------------------------
@@ -127,26 +127,26 @@ echo "$NEW_HOSTNAME" > /etc/hostname
 sed -i "s/127\.0\.1\.1\s\+.*/127.0.1.1\t$NEW_HOSTNAME/g" /etc/hosts
 
 # ------------------------------
-# Configure Static IP
+# Configure Static IP for Wi-Fi
 # ------------------------------
 
 # Backup dhcpcd.conf
 cp /etc/dhcpcd.conf /etc/dhcpcd.conf.backup
 echo "Backup of /etc/dhcpcd.conf created at /etc/dhcpcd.conf.backup"
 
-# Remove existing static IP configuration for the interface (assuming eth0)
-sed -i '/^interface eth0/,/^$/d' /etc/dhcpcd.conf
+# Remove existing static IP configuration for Wi-Fi (assuming wlan0)
+sed -i '/^interface wlan0/,/^$/d' /etc/dhcpcd.conf
 
-# Append new static IP configuration
+# Append new static IP configuration for Wi-Fi
 cat <<EOL >> /etc/dhcpcd.conf
 
-interface eth0
-static ip_address=${STATIC_IP}${SUBNET}
-static routers=${GATEWAY}
-static domain_name_servers=${DNS}
+interface wlan0
+static ip_address=${STATIC_IP_WLAN}${SUBNET_WLAN}
+static routers=${GATEWAY_WLAN}
+static domain_name_servers=${DNS_WLAN}
 EOL
 
-echo "Static IP configuration added to /etc/dhcpcd.conf"
+echo "Static IP configuration added to /etc/dhcpcd.conf for wlan0"
 
 # ------------------------------
 # Configure Wi-Fi
@@ -187,4 +187,3 @@ if [[ "$REBOOT_CHOICE" =~ ^[Yy]$ ]]; then
 else
   echo "Please remember to reboot the system later to apply all changes."
 fi
-
