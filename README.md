@@ -48,16 +48,16 @@ Update the following parameters as needed:
 # ------------------------------ 
 # Wi-Fi Configuration 
 # ------------------------------ 
-SSID=""                   # Your Wi-Fi SSID 
-PSK=""             # Your Wi-Fi password 
-COUNTRY="DK"                 # Country code (e.g., US, DK) 
+SSID=""                                #  Get SSID from helpdesk@unord.dk for raspbery pi projects at CBV
+PSK=""                                 # Your Wi-Fi password from helpdesk@unord.dk for raspberry pi projects 
+COUNTRY="DK"                           # Keep the country code to "DK" unless you are trying somthing funky
 
-# ------------------------------ 
-# Ethernet Configuration 
-# ------------------------------ 
-SUBNET="/20"                 # Subnet mask in CIDR notation (e.g., /20) 
-GATEWAY="10.126.193.xxx"       # Default gateway IP 
-DNS="10.255.1.4 8.8.8.8 8.8.4.4"  # DNS servers separated by spaces
+# ------------------------------
+# Wi-Fi Static IP Configuration
+# ------------------------------
+SUBNET_WLAN="/20"                      # Subnet mask for vlan 192 is "/20" if using another VLAN contact helpdesk@unord.dk
+GATEWAY_WLAN="10.126.192.1"            # Default gateway IP for VLAN 192, if using another VLAN contact helpdesk@unord.dk
+DNS_WLAN="10.255.1.4 8.8.8.8 8.8.4.4"  # DNS servers separated by spaces. Here we first trying EFIF DNS and if it fails it uses Googles
 ```
 
 **Important:** Ensure all fields are correctly filled out to avoid configuration errors.
