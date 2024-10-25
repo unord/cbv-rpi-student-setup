@@ -58,7 +58,7 @@ COUNTRY="DK"                 # Country code (e.g., US, DK)
 # Ethernet Configuration 
 # ------------------------------ 
 SUBNET="/20"                 # Subnet mask in CIDR notation (e.g., /20) 
-GATEWAY="10.126.192.1"       # Default gateway IP 
+GATEWAY="10.126.193.xxx"       # Default gateway IP 
 DNS="10.255.1.4 8.8.8.8 8.8.4.4"  # DNS servers separated by spaces
 ```
 
